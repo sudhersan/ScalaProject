@@ -1,11 +1,11 @@
+import Fs2Demos.DebugIO
 import cats.effect.{IO, IOApp}
 import fs2.{Pure, Stream}
 
 class Fs2Demos extends IOApp.Simple {
 
   case class Country(name: String, province: String)
-
-
+  
     val cal: Country = Country("usa","california")
     val ny: Country = Country("usa","new york")
     val texas: Country = Country("usa","texas")
@@ -26,7 +26,7 @@ class Fs2Demos extends IOApp.Simple {
     )
 
 
-    // Convert Stream[Pure, Country] => Stream[IO, provice]
+    // Convert Stream[Pure, Country] => Stream[IO, Unit]
     val usStreamIo: Stream[IO, Unit] = usStreamPure.flatMap{ province =>
       Stream.eval(IO.println(province))
     }
@@ -38,4 +38,15 @@ class Fs2Demos extends IOApp.Simple {
 
 
   override def run: IO[Unit] = ???
+}
+
+object Fs2Demos{
+
+  implicit class DebugIO[A](io: IO[A]) {
+    def debug[A](io: IO[A]):IO[A] = io.map{ value =>
+      println(s"${Thread.currentThread().getName} $value ")
+      value
+    }
+  }
+
 }
