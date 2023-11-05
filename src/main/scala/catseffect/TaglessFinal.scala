@@ -5,6 +5,10 @@ import cats.effect.{ExitCode, IO, IOApp, Ref, Sync}
 import cats._
 import cats.implicits._
 
+/*
+  Example to demonstrate tagless final pattern
+ */
+
 class TaglessFinal extends IOApp {
 
   case class Product(name: String, noOfItems: Int)
